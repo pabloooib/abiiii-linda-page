@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pablo vs Abi ⚽</title>
+  <style>
+    :root{
+      --pink:#ff6db4; --hot:#ff3d86; --soft:#ffd7ea; --bg1:#fff3f9; --bg2:#ffeaf4; --ink:#35243a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 800px at 20% 10%, var(--bg2), transparent),
+                  radial-gradient(900px 700px at 80% 20%, var(--bg1), transparent),
+                  linear-gradient(180deg, #fff, var(--bg1));
+      color:var(--ink);
+    }
+    header{text-align:center; padding:28px 16px 10px;}
+    .title{display:inline-block; padding:10px 18px; border-radius:24px; background:#fff; box-shadow:0 8px 30px rgba(255,61,134,.2); border:2px dashed var(--soft); font-weight:800; font-size:clamp(20px, 3vw, 34px);}
+    .wrap{max-width:1100px; margin:0 auto; padding:10px 18px 80px}
+    .card{background:#fff; border-radius:24px; padding:20px; box-shadow:0 10px 30px rgba(53,36,58,.08); border:1px solid #ffe3f2;}
+    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; margin:18px 0 26px}
+    .btn{appearance:none; border:none; cursor:pointer; font-weight:800; letter-spacing:.3px; transition:.2s transform ease, .2s box-shadow ease, .2s background ease; padding:12px 16px; border-radius:14px; color:#fff; background:linear-gradient(180deg, var(--pink), var(--hot)); box-shadow:0 10px 20px rgba(255,61,134,.25);}
+    .btn.secondary{background:linear-gradient(180deg, #ffb2d8, #ff7fb6)}
+    .btn:active{transform:translateY(1px)}
+    .stage{position:relative; height:340px; border-radius:20px; border:1px solid #ffe3f2; background:repeating-linear-gradient(90deg, #f7fff7 0 40px, #eef9ee 40px 80px); overflow:hidden}
+    .sprite{position:absolute; width:150px; aspect-ratio:1/1; transform:translate(-50%, -50%);}  
+    @keyframes kitty-dance{0%{transform:translate(-50%,-50%) rotate(0deg) scale(1);}25%{transform:translate(-50%,-50%) rotate(-8deg) scale(1.04);}50%{transform:translate(-50%,-50%) rotate(0deg) scale(1.06);}75%{transform:translate(-50%,-50%) rotate(8deg) scale(1.04);}100%{transform:translate(-50%,-50%) rotate(0deg) scale(1);}}
+    .sprite.dance{animation:kitty-dance .9s ease-in-out infinite;}
+    @keyframes party-bg{0%{background:linear-gradient(180deg,#fff,#ffe7f3);}50%{background:linear-gradient(180deg,#fff,#ffe0f0);}100%{background:linear-gradient(180deg,#fff,#ffe7f3);}}
+    .stage.party{animation:party-bg 1.2s ease-in-out infinite;}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">Pablo vs Abi</div>
+  </header>
+  <main class="wrap">
+    <section class="card">
+      <h3>Futbolito Kitty</h3>
+      <p>Arrastra a Pablo y Abi para moverlos y juega al futbol. ¡El primero a 3 goles gana!</p>
+      <div class="controls">
+        <button class="btn" id="btnDance">Que bailen</button>
+        <button class="btn secondary" id="btnTeleport">Teletransportar</button>
+        <button class="btn" id="btnParty">Modo fiesta</button>
+      </div>
+      <div class="stage" id="stage">
+        <div style="position:absolute; left:50%; top:8px; transform:translateX(-50%); font-weight:800; background:#fff; padding:6px 12px; border:1px solid #ffe3f2; border-radius:12px;">Pablo vs Abi — Marcador: <span id="scoreP">0</span> - <span id="scoreA">0</span></div>
+        <div id="goalLeft"  style="position:absolute; left:6px; top:25%; width:10px; height:50%; border:3px solid #b2d7ff; border-left:0; border-radius:10px; background:rgba(178,215,255,.2)"></div>
+        <div id="goalRight" style="position:absolute; right:6px; top:25%; width:10px; height:50%; border:3px solid #ffb6d6; border-right:0; border-radius:10px; background:rgba(255,182,214,.2)"></div>
+        <div id="ball" style="position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); width:26px; height:26px; border-radius:50%; background:radial-gradient(circle at 30% 30%, #fff, #e6e6e6); border:2px solid #2d2d2d; box-shadow:0 4px 10px rgba(0,0,0,.15)"></div>
+        <div class="sprite" id="kittyPablo" style="left:20%; top:55%;">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="100" cy="105" rx="70" ry="55" fill="#fff" stroke="#2d2d2d" stroke-width="3"/>
+            <path d="M48 70 L32 40 L64 56 Z" fill="#fff" stroke="#2d2d2d" stroke-width="3"/>
+            <path d="M152 70 L168 40 L136 56 Z" fill="#fff" stroke="#2d2d2d" stroke-width="3"/>
+            <ellipse id="eyeLP" cx="78" cy="105" rx="6" ry="9" fill="#2d2d2d"/>
+            <ellipse id="eyeRP" cx="122" cy="105" rx="6" ry="9" fill="#2d2d2d"/>
+            <ellipse cx="100" cy="120" rx="7" ry="5" fill="#ffc04d"/>
+            <circle cx="140" cy="80" r="12" fill="#7ec8ff" stroke="#2d2d2d" stroke-width="2"/>
+            <text x="60" y="160" font-size="18" fill="#2d2d2d" font-weight="700">Pablo</text>
+          </svg>
+        </div>
+        <div class="sprite" id="kittyAbi" style="left:80%; top:55%;">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="100" cy="105" rx="70" ry="55" fill="#fff" stroke="#2d2d2d" stroke-width="3"/>
+            <path d="M48 70 L32 40 L64 56 Z" fill="#fff" stroke="#2d2d2d" stroke-width="3"/>
+            <path d="M152 70 L168 40 L136 56 Z" fill="#fff" stroke="#2d2d2d" stroke-width="3"/>
+            <ellipse id="eyeLA" cx="78" cy="105" rx="6" ry="9" fill="#2d2d2d"/>
+            <ellipse id="eyeRA" cx="122" cy="105" rx="6" ry="9" fill="#2d2d2d"/>
+            <ellipse cx="100" cy="120" rx="7" ry="5" fill="#ffc04d"/>
+            <circle cx="138" cy="80" r="8" fill="#ff3d86"/>
+            <ellipse cx="126" cy="80" rx="12" ry="10" fill="#ff6db4" stroke="#2d2d2d" stroke-width="2"/>
+            <ellipse cx="150" cy="80" rx="12" ry="10" fill="#ff6db4" stroke="#2d2d2d" stroke-width="2"/>
+            <text x="72" y="160" font-size="18" fill="#2d2d2d" font-weight="700">Abi</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const stage=document.getElementById('stage'),kittyPablo=document.getElementById('kittyPablo'),kittyAbi=document.getElementById('kittyAbi'),btnDance=document.getElementById('btnDance'),btnTeleport=document.getElementById('btnTeleport'),btnParty=document.getElementById('btnParty'),ball=document.getElementById('ball'),goalLeft=document.getElementById('goalLeft'),goalRight=document.getElementById('goalRight'),scoreP=document.getElementById('scoreP'),scoreA=document.getElementById('scoreA');
+    let scores={P:0,A:0},bv={x:0,y:0},FRICTION=0.985,KICK_SPEED=6.0;
+    const rect=e=>e.getBoundingClientRect(),sRect=()=>stage.getBoundingClientRect();
+    function setBall(x,y){ball.style.left=x+'px';ball.style.top=y+'px'}
+    setTimeout(()=>{const s=sRect();setBall(s.width/2,s.height/2)},0);
+    function makeDraggable(el){let dragging=false,last={x:0,y:0},vel={x:0,y:0};function moveTo(x,y){const s=sRect();const cx=Math.max(0,Math.min(s.width,x-s.left)),cy=Math.max(0,Math.min(s.height,y-s.top));el.style.left=cx+'px';el.style.top=cy+'px';vel.x=cx-last.x;vel.y=cy-last.y;last={x:cx,y:cy}}el.addEventListener('mousedown',e=>{dragging=true;last={x:el.offsetLeft,y:el.offsetTop};e.preventDefault()});window.addEventListener('mouseup',()=>dragging=false);window.addEventListener('mousemove',e=>{if(dragging)moveTo(e.clientX,e.clientY)});el.addEventListener('touchstart',()=>{dragging=true},{passive:true});window.addEventListener('touchend',()=>dragging=false);window.addEventListener('touchmove',e=>{if(!dragging)return;const t=e.touches[0];moveTo(t.clientX,t.clientY)},{passive:true});return()=>vel}
+    const getVelP=makeDraggable(kittyPablo),getVelA=makeDraggable(kittyAbi);
+    function circle(el){const r=el.getBoundingClientRect(),s=sRect();const x=r.left-s.left+r.width/2,y=r.top-s.top+r.height/2,rad=Math.min(r.width,r.height)/2*.6;return{x,y,rad}}
+    function getBall(){const r=ball.getBoundingClientRect(),s=sRect();return{x:r.left-s.left+r.width/2,y:r.top-s.top+r.height/2}}
+    function kickIfCollision(){const b=getBall(),cP=circle(kittyPablo),cA=circle(kittyAbi);function collide(c,vel){const dx=b.x-c.x,dy=b.y-c.y,dist=Math.hypot(dx,dy),R=c.rad+13;if(dist<R){const nx=dx/(dist||1),ny=dy/(dist||1),v=vel();bv.x=nx*KICK_SPEED+v.x*.3;bv.y=ny*KICK_SPEED+v.y*.3}}collide(cP,getVelP);collide(cA,getVelA)}
+    function resetBall(){const s=sRect();setBall(s.width/2,s.height/2);bv={x:0,y:0}}
+    function toast(msg){const t=document.createElement('div');t.style.position='fixed';t.style.left='50%';t.style.bottom='26px';t.style.transform='translateX(-50%)';t.style.background='#fff';t.style.padding='12px 16px';t.style.border='1px solid #ffe3f2';t.style.borderRadius='14px';t.style.boxShadow='0 10px 30px rgba(53,36,58,.12)';t.style.zIndex='6';t.style.fontWeight='700';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>{t.style.transition='opacity .4s ease, transform .4s ease';t.style.opacity='0';t.style.transform='translateX(-50%) translateY(10px)'},1500);setTimeout(()=>t.remove(),2000)}
+    function showWinner(text){const s=document.createElement('div');s.style.position='fixed';s.style.inset='0';s.style.display='grid';s.style.placeItems='center';s.style.backdropFilter='blur(6px)';s.style.background='rgba(255,182,213,.25)';s.style.zIndex='8';const sheet=document.createElement('div');sheet.style.background='#fff';sheet.style.padding='24px';sheet.style.borderRadius='20px';sheet.style.border='1px solid #ffe3f2';sheet.style.boxShadow='0 20px 60px rgba(53,36,58,.15)';sheet.innerHTML=`<h3 style="margin:0 0 8px">Partido terminado</h3><p style="margin:0 0 16px; font-weight:700">${text}</p><button class="btn secondary" id="okWin">Jugar otra</button>`;s.appendChild(sheet);document.body.appendChild(s);document.getElementById('okWin').addEventListener('click',()=>s.remove())}
+    function resetAfterGoal(who){toast('Gol de '+who+'!');resetBall();if(scores.A===3||scores.P===3){let msg='';if(scores.A===3)msg='Abi gana 3 - '+scores.P+'. Abi le debe un beso a Pablo';else msg='Pablo gana 3 - '+scores.A+'. Abi le debe un beso a Pablo';showWinner(msg);scores={P:0,A:0};scoreP.textContent='0';scoreA.textContent='0'}}
+    function step(){const s=sRect(),b=getBall();let nx=b.x+bv.x,ny=b.y+bv.y,R=13;if(nx<R){nx=R;bv.x*=-.7}if(nx>s.width-R){nx=s.width-R;bv.x*=-.7}if(ny<R){ny=R;bv.y*=-.7}if(ny>s.height-R){ny=s.height-R;bv.y*=-.7}setBall(nx,ny);bv.x*=FRICTION;bv.y*=FRICTION;kickIfCollision();const gl=goalLeft.getBoundingClientRect(),gr=goalRight.getBoundingClientRect(),sb=ball.getBoundingClientRect();if(sb.left<=gl.right&&sb.top>=gl.top&&sb.bottom<=gl.bottom){scores.A++;scoreA.textContent=scores.A;resetAfterGoal('Abi')}if(sb.right>=gr.left&&sb.top>=gr.top&&sb.bottom<=gr.bottom){scores.P++;scoreP.textContent=scores.P;resetAfterGoal('Pablo')}requestAnimationFrame(step)}
+    requestAnimationFrame(step);
+    btnDance.addEventListener('click',()=>{kittyPablo.classList.toggle('dance');kittyAbi.classList.toggle('dance')});
+    btnTeleport.addEventListener('click',()=>{const s=sRect();kittyPablo.style.left=Math.random()*s.width+'px';kittyPablo.style.top=Math.random()*s.height+'px';kittyAbi.style.left=Math.random()*s.width+'px';kittyAbi.style.top=Math.random()*s.height+'px';resetBall()});
+    let party=false;btnParty.addEventListener('click',()=>{party=!party;stage.classList.toggle('party',party);document.documentElement.style.setProperty('--pink',party?'#ffa6de':'#ff6db4');document.documentElement.style.setProperty('--hot',party?'#ff6fb7':'#ff3d86')});
+  </script>
+</body>
+</html>
